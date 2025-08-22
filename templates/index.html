@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8">
+  <title>Robot Trigger Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 20%, #1e293b, #0f172a 70%, #020617);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      display: grid; place-items: center;
+    }
+
+    .card-wrap {
+      width: min(540px, 94vw);
+      border-radius: 20px;
+      padding: 2.2rem;
+      background: rgba(30, 41, 59, 0.92);
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 25px #38bdf855;
+    }
+
+    .app-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2rem;
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+
+    .subtext {
+      text-align: center;
+      font-size: 1.05rem;
+      color: #cbd5e1;
+    }
+
+    .form-control {
+      font-size: 1.05rem;
+      border-radius: 14px;
+      background: #334155;
+      color: white;
+      border: 1px solid #475569;
+      padding: 14px 16px;
+    }
+
+    .form-control:focus {
+      background: #475569;
+      color: #ffffff;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 4px rgba(56,189,248,0.25);
+    }
+
+    .btn-ignite {
+      display: inline-block;
+      background: linear-gradient(90deg, #14b8a6, #0ea5e9, #22c55e);
+      background-size: 300% 300%;
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border: none;
+      padding: 14px 18px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(34,197,94,0.3);
+      transition: all 0.2s ease;
+      animation: glow 6s ease infinite;
+    }
+
+    .btn-ignite:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 30px rgba(14,165,233,0.6);
+    }
+
+    @keyframes glow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .alert {
+      border-radius: 14px;
+      border: 0;
+      font-size: 1rem;
+    }
+
+    .success-check-wrap {
+      display: grid;
+      place-items: center;
+      margin-top: 14px;
+      min-height: 90px;
+    }
+
+    .checkmark {
+      width: 90px;
+      height: 90px;
+    }
+
+    .checkmark-circle {
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      animation: draw 0.8s 0.1s ease-out forwards;
+    }
+
+    .checkmark-check {
+      stroke-dasharray: 80;
+      stroke-dashoffset: 80;
+      animation: draw 0.6s 0.5s ease-out forwards;
+    }
+
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .robot-face {
+      display: grid;
+      place-items: center;
+      margin-top: 18px;
+    }
+
+    .eyes {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 8px;
+    }
+
+    .eye {
+        width: 28px;
+        height: 16px;
+        background: #22c55e;
+        clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+        box-shadow: 0 0 14px #22c55e;
+        transform-origin: center;
+        animation: robotWakeUp 4s ease-in-out 1 forwards;
+    }
+
+    /* Wake-up sequence: fade in → blink twice → look left → look right → center */
+    @keyframes robotWakeUp {
+        0%   { opacity: 0; transform: translate(0,0) scaleY(1); }
+        5%   { opacity: 1; }
+        10%  { transform: translate(0,0) scaleY(0.2); }
+        15%  { transform: translate(0,0) scaleY(1); }
+        20%  { transform: translate(0,0) scaleY(0.2); }
+        25%  { transform: translate(0,0) scaleY(1); }
+        40%  { transform: translate(-5px, -5px); }
+        55%  { transform: translate(5px, -5px); }
+        70%  { transform: translate(0,0); }
+        100% { transform: translate(0,0) scaleY(1); }
+    }
+
+    /* Blinking loop after wake-up */
+        @keyframes blinkLoop {
+        0%, 90%  { transform: translate(0,0) scaleY(1); }
+        95%      { transform: translate(0,0) scaleY(0.2); }
+        100%     { transform: translate(0,0) scaleY(1); }
+    }
+
+    .deployed-msg {
+      margin-top: 1rem;
+      font-size: 1rem;
+      color: #22c55e;
+      animation: dots 2s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+      0%, 20%   { content: " Robot deployed"; }
+      40%       { content: " Robot deployed."; }
+      60%       { content: " Robot deployed.."; }
+      80%,100%  { content: " Robot deployed..."; }
+    }
+
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fiu 0.4s ease forwards;
+    }
+
+    @keyframes fiu {
+      to {
+        opacity: 1; transform: translateY(0);
+      }
+    }
+
+    .fade-out {
+      animation: fo 0.35s ease forwards;
+    }
+
+    @keyframes fo {
+      to { opacity: 0; transform: translateY(-6px); }
+    }
+
+    .tip {
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-wrap">
+    <div class="app-title">Start RPA-flyt</div>
+    <p class="subtext">Skriv inn navn og passord som er delt med deg</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} mt-4 fade-in-up" role="alert">
+            {{ message }}
+          </div>
+
+          {% if category == 'success' %}
+            <div class="success-check-wrap">
+              <div id="checkWrap" class="fade-in-up">
+                <svg class="checkmark" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle class="checkmark-circle" cx="60" cy="60" r="48" stroke="#22c55e" stroke-width="10" />
+                  <path class="checkmark-check" d="M36 62 L54 78 L86 44" stroke="#16a34a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div id="robotWrap" class="robot-face fade-in-up" style="display:none;">
+                <div class="eyes">
+                  <div class="eye"></div>
+                  <div class="eye"></div>
+                </div>
+                <div class="deployed-msg"> Robot deployed...</div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" class="mt-4">
+      <div class="mb-3">
+        <label for="name" class="form-label">Navn</label>
+        <input id="name" type="text" class="form-control" name="name" required placeholder="F.eks. Samad Ismayilov">
+      </div>
+
+      <div class="mb-3 position-relative">
+        <label for="key" class="form-label">Tilgangskode</label>
+        <input id="key" type="password" class="form-control pe-5" name="key" required placeholder="Din kode">
+        <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor:pointer; color:#94a3b8;" id="togglePass">👁</span>
+      </div>
+
+      <button type="submit" class="btn btn-ignite w-100">Kjør roboten</button>
+    </form>
+
+    <p class="text-center mt-3 tip">
+      Bruker du Ctrl+V? Dobbeltsjekk at det ikke følger med mellomrom.
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  document.getElementById('togglePass')?.addEventListener('click', () => {
+    const passInput = document.getElementById('key');
+    passInput.type = passInput.type === 'password' ? 'text' : 'password';
+  });
+
+  const checkEl = document.getElementById('checkWrap');
+  const robotEl = document.getElementById('robotWrap');
+  const eyes = document.querySelectorAll('.eye');
+
+  if (checkEl && robotEl) {
+    setTimeout(() => {
+      checkEl.classList.add('fade-out');
+      setTimeout(() => {
+        checkEl.style.display = 'none';
+        robotEl.style.display = 'block';
+
+        // Start blink loop after wake-up animation finishes
+        setTimeout(() => {
+          eyes.forEach(eye => {
+            eye.style.animation = "blinkLoop 4s infinite";
+          });
+        }, 4000); // matches robotWakeUp duration
+      }, 350);
+    }, 1200);
+  }
+</script>
+
+
+  <p class="text-center mt-4" style="font-size:0.8rem; color:#64748b;">
+    © Samad Ismayilov, 2025
+  </p>
+</body>
+</html>
