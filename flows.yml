@@ -1,0 +1,48 @@
+flows:
+  - id: goop_vedtak
+    title: "📜 Ekspedering av vedtak"
+    description: "Sender vedtak via Digipost/eSam"
+    flow_url: "${FLOW_1_URL}"
+    launch_key: "${FLOW_1_KEY}"
+    
+  - id: historikksjekk
+    title: "🔎 Historikksjekk"
+    description: "Sjekker historiske systemer"
+    flow_url: "${FLOW_2_URL}"
+    launch_key: "${FLOW_2_KEY}"
+    
+  - id: dokumentarkiv
+    title: "📁 Dokumentarkiv"
+    description: "Arkiverer dokumenter automatisk"
+    flow_url: "${FLOW_3_URL}"
+    launch_key: "${FLOW_3_KEY}"
+    
+  - id: kvalitetskontroll
+    title: "✅ Kvalitetskontroll"
+    description: "Automatisk kvalitetssjekk av data"
+    flow_url: "${FLOW_4_URL}"
+    launch_key: "${FLOW_4_KEY}"
+    
+  - id: rapportgenerering
+    title: "📊 Rapportgenerering"
+    description: "Genererer månedlige rapporter"
+    flow_url: "${FLOW_5_URL}"
+    launch_key: "${FLOW_5_KEY}"
+    
+  - id: saksbehandling
+    title: "⚖️ Saksbehandling"
+    description: "Automatisert saksbehandling"
+    flow_url: "${FLOW_6_URL}"
+    launch_key: "${FLOW_6_KEY}"
+    
+  - id: datamigrering
+    title: "🔄 Datamigrering"
+    description: "Migrerer data mellom systemer"
+    flow_url: "${FLOW_7_URL}"
+    launch_key: "${FLOW_7_KEY}"
+    
+  - id: oppfolgning
+    title: "📞 Sjekke resultater i Studweb"
+    description: "Automatisk henter resultater og sender til Outlook"
+    flow_url: "${FLOW_8_URL}"
+    launch_key: "${FLOW_8_KEY}"
